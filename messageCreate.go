@@ -40,7 +40,11 @@ func MessageCreate(s *discordgo.Session, msg *discordgo.MessageCreate) {
 			}()
 			return
 		}
-		if r, ok := linker.LinkedFromDiscordID(msg.Author.ID); !ok {
+		if r, ok, err := linker.LinkedFromDiscordID(msg.Author.ID); !ok {
+			if err != nil {
+				s.ChannelMessageSend(msg.ChannelID, "An error occurred, please notify staff!")
+				return
+			}
 			l(msg.Author.ID, args[1], msg.Message, s)
 		} else {
 			go func() {
@@ -50,7 +54,11 @@ func MessageCreate(s *discordgo.Session, msg *discordgo.MessageCreate) {
 			}()
 		}
 	case "/info":
-		if r, ok := linker.LinkedFromDiscordID(msg.Author.ID); !ok {
+		if r, ok, err := linker.LinkedFromDiscordID(msg.Author.ID); !ok {
+			if err != nil {
+				s.ChannelMessageSend(msg.ChannelID, "An error occurred, please notify staff!")
+				return
+			}
 			go func() {
 				m, _ := s.ChannelMessageSend(msg.ChannelID, fmt.Sprintf("%v, You are not linked.", msg.Author.Mention()))
 				time.Sleep(20 * time.Second)
