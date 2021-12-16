@@ -83,12 +83,11 @@ func MessageCreate(s *discordgo.Session, msg *discordgo.MessageCreate) {
 }
 
 func l(discordID, code string, msg *discordgo.Message, s *discordgo.Session) {
-	if username, ok := linker.LoadByCode(code); ok {
+	if username, _, ok := linker.LoadByCode(code); ok {
 		if err := linker.Link(username, code, discordID); err != nil {
 			fmt.Println(err)
 			return
 		}
-		link.RemoveCode("/home/debian/link/codes.json", username)
 		go func() {
 			m, _ := s.ChannelMessageSend(msg.ChannelID, fmt.Sprintf("%v, You are now linked with the username **%s**!", msg.Author.Mention(), username))
 			time.Sleep(5 * time.Second)
