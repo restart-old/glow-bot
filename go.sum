@@ -20,6 +20,8 @@ github.com/SGPractice/link v0.0.0-20211215212458-d921c331c9b2 h1:ao5p7GrrKO4YSyy
 github.com/SGPractice/link v0.0.0-20211215212458-d921c331c9b2/go.mod h1:m9LSyu/rU/7The4e48N/wE97eH5WV/uEMG6D1tI+kXM=
 github.com/SGPractice/link v0.0.0-20211216230834-c9242c14266a h1:Jo5+qiZYWBoZQ9/czfo02L2oyuKScS/7e80j8z5LcXk=
 github.com/SGPractice/link v0.0.0-20211216230834-c9242c14266a/go.mod h1:m9LSyu/rU/7The4e48N/wE97eH5WV/uEMG6D1tI+kXM=
+github.com/SGPractice/link v0.0.0-20211219191312-e9bbeedf5d4a h1:H/EIDQXcO+6Xqj2JHnvAFWqDB3oFcqflDDC/2/CBL6M=
+github.com/SGPractice/link v0.0.0-20211219191312-e9bbeedf5d4a/go.mod h1:m9LSyu/rU/7The4e48N/wE97eH5WV/uEMG6D1tI+kXM=
 github.com/bwmarrin/discordgo v0.23.2 h1:BzrtTktixGHIu9Tt7dEE6diysEF9HWnXeHuoJEt2fH4=
 github.com/bwmarrin/discordgo v0.23.2/go.mod h1:c1WtWUGN6nREDmzIpyTp/iD3VYt4Fpx+bVyfBG7JE+M=
 github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
