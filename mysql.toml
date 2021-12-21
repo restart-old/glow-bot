@@ -1,0 +1,27 @@
+Addr = ":3306"
+AllowAllFiles = false
+AllowCleartextPasswords = false
+AllowNativePasswords = true
+AllowOldPasswords = false
+CheckConnLiveness = true
+ClientFoundRows = false
+Collation = "utf8mb4_general_ci"
+ColumnsWithAlias = false
+DBName = "GlowHCF"
+InterpolateParams = false
+MaxAllowedPacket = 4194304
+MultiStatements = false
+Net = "tcp"
+ParseTime = false
+Passwd = "f37JZEUm2QFexguhRuyscW{AdrKr86KajFGf%VT2h6BJUUF"
+ReadTimeout = "0s"
+RejectReadOnly = false
+ServerPubKey = ""
+TLSConfig = ""
+Timeout = "0s"
+User = "root"
+WriteTimeout = "0s"
+
+[Loc]
+
+[Params]

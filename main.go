@@ -1,38 +1,62 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"github.com/RestartFU/gophig"
+	client2 "github.com/SGPractice/glow-bot/client"
+	"github.com/SGPractice/glow-bot/command"
+	"github.com/SGPractice/link"
+	mysql2 "github.com/go-sql-driver/mysql"
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
 	"time"
-
-	"github.com/bwmarrin/discordgo"
 )
 
 func main() {
-	session, err := discordgo.New("Bot OTIwNDU0NTk4OTcwNDc0NDk3.YbkmJQ.jEsyHsuks7-SnD0gnnLAplnLhXw")
+	// mysql
+	var mysql mysql2.Config
+	if err := gophig.GetConf("./mysql", "toml", &mysql); err != nil {
+		log.Fatalln(err)
+	}
+
+	// connector
+	connector, err := mysql2.NewConnector(&mysql)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	session.Identify.Intents = discordgo.IntentsGuildMembers
-	if err := session.Open(); err != nil {
+	// linker
+	storer := link.NewJSONStorer("/home/debian/link/")
+	db := sql.OpenDB(connector)
+	linker := link.NewLinker(db, storer)
+
+	// config
+	var config client2.Config
+	if err = gophig.GetConf("./config", "toml", &config); err != nil {
 		log.Fatalln(err)
 	}
-	ranks := map[string]string{
-		"Zeus":   "922234208787759125",
-		"Kratos": "922234180870492301",
-		"Triton": "922234161253716029",
-		"Hermes": "922234150130430013",
-		"Ares":   "922234108330008656",
+
+	// client
+	client := client2.New(&config, linker)
+
+	if err = client.Start(); err != nil {
+		log.Fatalln(err)
 	}
+	log.Println("bot started")
+	command.StartHandlingCommands(client)
+
 	go func() {
+		ranks := map[string]string{
+			"Zeus":   "922234208787759125",
+			"Kratos": "922234180870492301",
+			"Triton": "922234161253716029",
+			"Hermes": "922234150130430013",
+			"Ares":   "922234108330008656",
+		}
 		var after string
 		ticker := time.NewTicker(1 * time.Minute / 2)
 		for {
 			<-ticker.C
-			members, _ := session.GuildMembers("914172147520401448", after, 1000)
+			members, _ := client.GuildMembers("914172147520401448", after, 1000)
 			if len(members) <= 0 {
 				after = ""
 			}
@@ -47,7 +71,7 @@ func main() {
 						rank, ok := ranks[role]
 						fmt.Println(role, rank)
 						if ok {
-							session.GuildMemberRoleAdd("914172147520401448", m.User.ID, rank)
+							client.GuildMemberRoleAdd("914172147520401448", m.User.ID, rank)
 						}
 					}
 				}
@@ -55,9 +79,6 @@ func main() {
 			}
 		}
 	}()
-	session.AddHandler(MessageCreate)
-	c := make(chan os.Signal, 2)
-	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-	<-c
-	session.Close()
+
+	client.CloseOnProgramEnd()
 }
